@@ -129,14 +129,7 @@ if ( $data && is_numeric( $data['id'] ) ) {
 		if (!empty($this->allVariation) && count($this->allVariation) > 1) {
 			$args["globals"]["hero"]["variation"] = sanitize_text_field($settings["variation"]);
 		}
-        $items_Array = array();
-            if (!empty($settings['accordion_items'])) {
-                foreach ($settings['accordion_items'] as $item) {
-                    $items_Array[$i]['title'] = sanitize_text_field($item['title']);
-                    $items_Array[$i]['link'] = sanitize_text_field($item['link']);
-                    $i++;
-                }
-            }
+        
         $button_link = isset($settings["hero_button_link"]) ? sanitize_text_field($settings["hero_button_link"]) : "";
 	
         $args["globals"]["hero"]["button_link"] = $button_link;
@@ -152,7 +145,6 @@ if ( $data && is_numeric( $data['id'] ) ) {
         $args["globals"]["hero"]["schedule_online"]["url"] = sanitize_text_field($settings["hero_schedule_online_url"]);
         $args["globals"]["hero"]["schedule_online"]["label"] = sanitize_text_field($settings["hero_schedule_online_lable"]);
         $args["globals"]["hero"]["schedule_online"]["icon_class"] = sanitize_text_field($settings["hero_schedule_online_icon_class"]);
-		$args['globals']['services']['items'] = $items_Array;
         
          // SAVE TO SPEC
 		 if ($this->globalPath){
@@ -179,12 +171,6 @@ if ( $data && is_numeric( $data['id'] ) ) {
 		$this->start_controls_section("hero", [
 			"label" => __("Hero", "rds-hero-widget"),
 		]);
-		 $itemsArray = [
-            [
-                 "title" => "label",
-                "link" => "#"
-            ]
-        ];
 		if (!empty($this->allVariation) && count($this->allVariation) > 1) {
 			$defaultVariation = isset($args["globals"]["hero"]["variation"]) ? $args["globals"]["hero"]["variation"] : "a";
 			$this->add_control("variation", [
@@ -304,32 +290,6 @@ if ( $data && is_numeric( $data['id'] ) ) {
 				"variation" => ["d"], // Show the control only if "type" is set to "option1"
 			],
 		]);
-		$this->add_control(
-            'accordion_items',
-            array(
-                'label' => __('Items', 'rds-hero-widget'),
-                'type' => \Elementor\Controls_Manager::REPEATER,
-                'fields' => array(
-                    array(
-                        'name' => 'title',
-                        'label' => __('Label', 'rds-hero-widget'),
-                        'type' => \Elementor\Controls_Manager::TEXT,
-                        'default' => 'Label',
-                        'label_block' => true,
-                    ),
-                    array(
-                        'name' => 'link',
-                        'label' => __('Url', 'rds-hero-widget'),
-                        'type' => \Elementor\Controls_Manager::TEXTAREA,
-                        'default' => '#',
-                        'label_block' => true,
-                    ),
-                ),
-                'default' => $itemsArray,
-                'title_field' => '{{{ title }}}',
-                'description_field' => '{{{ link }}}'
-            )
-        );
 		$this->end_controls_section();
 	}
 }
